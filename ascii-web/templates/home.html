@@ -8,13 +8,18 @@
 <body>
     <form action="/ascii-art" method="">
         <label for="text">Enter a text</label>
-        <input type="text" placeholder="enter the text you want to be transformed">
-        <select name="" id="">
+        <input type="text"  id="text"
+            name="text" placeholder="enter the text you want to be transformed">
+        <label for="banner" name="banner">Choose a Style</label>
+        <select name="banner" id="banner">
             <option value="disabledselect">choose the style you want</option>
             <option value="standard.txt">Standa</option>
             <option value="thinkertoy.txt">Thinkertoy</option>
             <option value="shadow.txt">Shadow</option>
         </select>
+         <br><br>
+
+        <button type="submit">Generate</button>
     </form>
 </body>
 </html>
