@@ -15,7 +15,7 @@ func transformText(text string) (string, error) {
 		fmt.Printf("%c is not a valid ascii character\n", rune)
 		os.Exit(1)
 	}
-	input := os.Args[1]
+	input := text
 	banner := "standard.txt"
 	if len(os.Args) == 3 {
 		banner = os.Args[2]
@@ -26,5 +26,5 @@ func transformText(text string) (string, error) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Print(GenerateArt(input, charMap))
+	//fmt.Print(GenerateArt(input, charMap))
 }
