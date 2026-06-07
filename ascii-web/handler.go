@@ -18,8 +18,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := pageData{
-		Input: text,
-	}
-
+	tmpl.ExecuteTemplate(w, "result.html", pageData{
+		Input:  text,
+		Result: result,
+	})
 }
