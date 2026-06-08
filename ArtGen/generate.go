@@ -38,7 +38,8 @@ func GenerateArt(input string, banner map[rune][]string) string {
 		} else {
 			rows := RenderLine(part, banner)
 			for _, row := range rows {
-				result.WriteString(row + "\n")
+				result.WriteString(row)
+				result.WriteString("\n")
 			}
 		}
 	}
