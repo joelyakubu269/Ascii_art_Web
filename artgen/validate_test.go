@@ -1,4 +1,4 @@
-package main
+package artgen
 
 import (
 	"testing"

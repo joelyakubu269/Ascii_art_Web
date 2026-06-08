@@ -1,11 +1,12 @@
 package main
 
 import (
+	"asciiartweb/artgen"
 	"fmt"
 )
 
 func transformText(text, bannerFile string) (string, error) {
-	r, err := ValidateInput(text)
+	r, err := artgen.ValidateInput(text)
 	if err != nil {
 		return "", fmt.Errorf("%c is not a valid ascii character", r)
 	}
@@ -18,10 +19,10 @@ func transformText(text, bannerFile string) (string, error) {
 	if !allowed[bannerFile] {
 		return "", fmt.Errorf("invalid banner selected")
 	}
-	charMap, err := LoadBanner(bannerFile)
+	charMap, err := artgen.LoadBanner(bannerFile)
 	if err != nil {
 		return "", err
 	}
 
-	return GenerateArt(text, charMap), nil
+	return artgen.GenerateArt(text, charMap), nil
 }
