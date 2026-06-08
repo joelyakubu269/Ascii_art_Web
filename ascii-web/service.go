@@ -25,7 +25,7 @@ func transformText(text, bannerFile string) (string, error) {
 	}
 	charMap, err := artgen.LoadBanner(bannerFile)
 	if err != nil {
-		return "", err
+		return "", ErrBannerNotFound
 	}
 
 	return artgen.GenerateArt(text, charMap), nil
