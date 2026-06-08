@@ -2,24 +2,26 @@ package main
 
 import (
 	"asciiartweb/artgen"
+	"errors"
 	"fmt"
-	"net/http"
 )
+
+var ErrInvalidBanner = errors.New("invalid banner selected")
+var ErrBannerNotFound = errors.New("banner not found")
 
 func transformText(text, bannerFile string) (string, error) {
 	r, err := artgen.ValidateInput(text)
 	if err != nil {
 		return "", fmt.Errorf("%c is not a valid ascii character", r)
 	}
-	var ErrInvalidBanner = errors.New("invalid banner selected")
-	var ErrBannerNotFound = errors.New("banner not found")
+
 	allowed := map[string]bool{
 		"standard.txt":   true,
 		"shadow.txt":     true,
 		"thinkertoy.txt": true,
 	}
 	if !allowed[bannerFile] {
-		return "",
+		return "", ErrInvalidBanner
 	}
 	charMap, err := artgen.LoadBanner(bannerFile)
 	if err != nil {
