@@ -15,11 +15,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch {
 		case errors.Is(err, ErrInvalidBanner):
-			renderError(w, 400, err.Error())
+			renderError(w, http.StatusBadRequest, err.Error())
+		case errors.Is(err, ErrBannerNotFound):
+			renderError(w, http.StatusNotFound, err.Error())
+		default:
+			renderError(w, 500, "internal server error")
 		}
-		tmpl.ExecuteTemplate(w, "error.html", pageData{
-			Error: err.Error(),
-		})
 		return
 	}
 
