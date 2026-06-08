@@ -19,19 +19,25 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		case errors.Is(err, ErrBannerNotFound):
 			renderError(w, http.StatusNotFound, err.Error())
 		default:
-			renderError(w, 500, "internal server error")
+			renderError(w, http.StatusInternalServerError, "internal server error")
 		}
 		return
 	}
 
-	tmpl.ExecuteTemplate(w, "result.html", pageData{
+	err = tmpl.ExecuteTemplate(w, "result.html", pageData{
 		Input:  text,
 		Result: result,
 	})
+	if err != nil {
+		http.Error(w, "template rendering failed", http.StatusInternalServerError)
+	}
 }
 func renderError(w http.ResponseWriter, status int, msg string) {
 	w.WriteHeader(status)
-	tmpl.ExecuteTemplate(w, "errors.html", pageData{
+	err := tmpl.ExecuteTemplate(w, "errors.html", pageData{
 		Error: msg,
 	})
+	if err != nil {
+		http.Error(w, "template rendering failed", http.StatusInternalServerError)
+	}
 }
