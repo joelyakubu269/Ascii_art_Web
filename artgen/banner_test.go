@@ -1,5 +1,4 @@
-// asciiart/generate.go
-package asciiart
+package artgen
 
 import (
 	"os"
