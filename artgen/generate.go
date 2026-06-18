@@ -8,7 +8,7 @@ func GenerateArt(input string, banner map[rune][]string) (string, error) {
 	if input == "" {
 		return "", nil
 	}
-	parts := split(input)
+	parts := Split(input)
 
 	var result strings.Builder
 	for i, part := range parts {

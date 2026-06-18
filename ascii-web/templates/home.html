@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII ART GENERATOR</title>
+    <title>AsciiWeb</title>
 </head>
 <body>
-    <form action="/ascii-art" method="post">
-        <label for="text">Enter a text</label>
-        <input type="text"  id="text"
-            name="text" placeholder="enter the text you want to be transformed">
-        <label for="banner" name="banner">Choose a Style</label>
-        <select name="banner" id="banner">
-            <option value="disabledselect">choose the style you want</option>
-            <option value="standard.txt">Standa</option>
-            <option value="thinkertoy.txt">Thinkertoy</option>
-            <option value="shadow.txt">Shadow</option>
-        </select>
-         <br><br>
+   <form action="/ascii" method="POST">
+    <input type="text" name="text">
 
-        <button type="submit">Generate</button>
-    </form>
+    <select name="banner">
+        <option value="" selected disabled>choose a banner style</option>
+        <option value="standard.txt">Standard</option>
+        <option value="shadow.txt">Shadow</option>
+        <option value="thinkertoy.txt">Thinkertoy</option>
+    </select>
+
+    <button type="submit">submit</button>
+</form>
+
+<pre>{{.Result}}</pre>
+<pre>{{.Error}}</pre>
+    
 </body>
 </html>

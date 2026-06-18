@@ -6,27 +6,28 @@ import (
 	"fmt"
 )
 
-var ErrInvalidBanner = errors.New("invalid banner selected")
-var ErrBannerNotFound = errors.New("banner not found")
+var ErrInvalidBanner = errors.New("Banner not allowed")
+var ErrBannerNotFound = errors.New("Banner not found")
 
-func transformText(text, bannerFile string) (string, error) {
-	r, err := artgen.ValidateInput(text)
+func Transform(text string, filename string) (string, error) {
+	rune, err := artgen.ValidateInput(text)
 	if err != nil {
-		return "", fmt.Errorf("%c is not a valid ascii character", r)
+		return "", fmt.Errorf("%c is not a valid character", rune)
 	}
-
 	allowed := map[string]bool{
 		"standard.txt":   true,
 		"shadow.txt":     true,
 		"thinkertoy.txt": true,
 	}
-	if !allowed[bannerFile] {
+	if !allowed[filename] {
 		return "", ErrInvalidBanner
 	}
-	charMap, err := artgen.LoadBanner(bannerFile)
+	fmt.Println("filename received:", filename)
+
+	m, err := artgen.LoadBanner("../ascii-art/" + filename)
 	if err != nil {
 		return "", ErrBannerNotFound
 	}
 
-	return artgen.GenerateArt(text, charMap), nil
+	return artgen.GenerateArt(text, m)
 }
