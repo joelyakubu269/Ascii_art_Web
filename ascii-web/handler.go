@@ -6,35 +6,43 @@ import (
 	"net/http"
 )
 
-var tmpl = template.Must(template.ParseGlob("templates/*.html"))
+var templ = template.Must(template.ParseFiles("templates/index.html"))
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	text := r.FormValue("text")
+func handlers(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		templ.Execute(w, nil)
+		return
+	}
+	if r.Method != http.MethodPost {
+		RenderErrors(w, http.StatusMethodNotAllowed, "method is not allowed")
+		return
+	}
+	str := r.FormValue("text")
 	banner := r.FormValue("banner")
-	result, err := transformText(text, banner)
+	val, err := Transform(str, banner)
 	if err != nil {
 		switch {
 		case errors.Is(err, ErrInvalidBanner):
-			renderError(w, http.StatusBadRequest, err.Error())
+			RenderErrors(w, http.StatusBadRequest, err.Error())
 		case errors.Is(err, ErrBannerNotFound):
-			renderError(w, http.StatusNotFound, err.Error())
+			RenderErrors(w, http.StatusNotFound, err.Error())
 		default:
-			renderError(w, http.StatusInternalServerError, "internal server error")
+			RenderErrors(w, http.StatusInternalServerError, "interval server error")
 		}
 		return
 	}
-
-	err = tmpl.ExecuteTemplate(w, "result.html", pageData{
-		Input:  text,
-		Result: result,
+	err = templ.Execute(w, pageData{
+		Result: val,
 	})
 	if err != nil {
-		http.Error(w, "template rendering failed", http.StatusInternalServerError)
+		http.Error(w, "error rendering template", http.StatusInternalServerError)
 	}
+
 }
-func renderError(w http.ResponseWriter, status int, msg string) {
-	w.WriteHeader(status)
-	err := tmpl.ExecuteTemplate(w, "errors.html", pageData{
+
+func RenderErrors(w http.ResponseWriter, Status int, msg string) {
+	w.WriteHeader(Status)
+	err := templ.Execute(w, pageData{
 		Error: msg,
 	})
 	if err != nil {

@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func SplitInput(text string) []string {
+func Split(text string) []string {
 
 	return strings.Split(text, "\\n")
 
