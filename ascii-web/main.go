@@ -1,16 +1,9 @@
 package main
 
-import (
-	"fmt"
-	"net/http"
-)
+import "net/http"
 
-func maian() {
-	http.HandleFunc("GET /ascii-art", handler)
-	http.HandleFunc("POST/ascii-art", handler)
+func main() {
 
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		fmt.Println(err)
-	}
+	http.HandleFunc("/ascii", handlers)
+	http.ListenAndServe(":8080", nil)
 }
